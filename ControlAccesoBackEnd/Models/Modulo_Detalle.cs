@@ -9,15 +9,10 @@ namespace ControlAccesoBackEnd
     public partial class Modulo_Detalle
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_modulo_detalle { get; set; }
 
-        public int? id_modulo { get; set; }
+        public int id_modulo { get; set; }
 
-        public int? id_rol { get; set; }
-
-        public virtual Modulo Modulo { get; set; }
-
-        public virtual Rol Rol { get; set; }
+        public int id_rol { get; set; }
     }
 }

@@ -9,15 +9,10 @@ namespace ControlAccesoBackEnd
     public partial class Permiso_Trabajo_Detalle
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_permiso_trabajo_detalle { get; set; }
 
-        public int? id_permiso_trabajo { get; set; }
+        public int id_permiso_trabajo { get; set; }
 
-        public int? id_persona { get; set; }
-
-        public virtual Permiso_Trabajo Permiso_Trabajo { get; set; }
-
-        public virtual Persona Persona { get; set; }
+        public int id_persona { get; set; }
     }
 }

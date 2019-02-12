@@ -9,15 +9,7 @@ namespace ControlAccesoBackEnd
     [Table("Usuario")]
     public partial class Usuario
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuario()
-        {
-            Permiso_Trabajo = new HashSet<Permiso_Trabajo>();
-            Visita = new HashSet<Visita>();
-        }
-
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_usuario { get; set; }
 
         [Required]
@@ -37,18 +29,8 @@ namespace ControlAccesoBackEnd
         [StringLength(50)]
         public string correo { get; set; }
 
-        public int? id_rol { get; set; }
+        public int id_rol { get; set; }
 
-        public int? id_empresa { get; set; }
-
-        public virtual Empresa Empresa { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Permiso_Trabajo> Permiso_Trabajo { get; set; }
-
-        public virtual Rol Rol { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Visita> Visita { get; set; }
+        public int id_empresa { get; set; }
     }
 }

@@ -10,10 +10,9 @@ namespace ControlAccesoBackEnd
     public partial class Objeto
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id_objeto { get; set; }
 
-        public int? id_visita { get; set; }
+        public int id_visita { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -23,7 +22,5 @@ namespace ControlAccesoBackEnd
 
         [StringLength(50)]
         public string comentario { get; set; }
-
-        public virtual Visita Visita { get; set; }
     }
 }
