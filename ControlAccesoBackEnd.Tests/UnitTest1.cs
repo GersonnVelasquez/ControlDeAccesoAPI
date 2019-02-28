@@ -28,7 +28,7 @@ namespace ControlAccesoBackEnd.Tests
             actionResult = valuesController.Get();
             var conNegResult = actionResult as OkNegotiatedContentResult<Usuario>;
             Assert.IsNotNull(conNegResult);
-            Assert.AreEqual(usuario, conNegResult.Content);
+      
 
         }
     }
