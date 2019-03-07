@@ -31,12 +31,14 @@ namespace ControlAccesoBackEnd
 
         public int? id_permiso_trabajo { get; set; }
 
-    
         [StringLength(50)]
         public string placa_vehiculo { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string descripcion { get; set; }
+
+        public TimeSpan hora_visita { get; set; }
+
+        public int estado { get; set; }
     }
 }

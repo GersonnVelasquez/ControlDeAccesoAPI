@@ -25,7 +25,7 @@ namespace ControlAccesoBackEnd.Controllers
         {
             DB.Persona.Add(n);
             DB.SaveChanges();
-            return Ok();
+            return Ok(n);
         }
 
 

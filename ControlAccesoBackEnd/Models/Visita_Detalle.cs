@@ -15,13 +15,15 @@ namespace ControlAccesoBackEnd
 
         public int id_persona { get; set; }
 
-        public TimeSpan hr_entrada { get; set; }
+        public TimeSpan? hr_entrada { get; set; }
 
-        public TimeSpan hr_salida { get; set; }
+        public TimeSpan? hr_salida { get; set; }
 
-        public int n_carnet { get; set; }
+        public int? n_carnet { get; set; }
 
         [StringLength(100)]
         public string observaciones { get; set; }
+
+        public int estado { get; set; }
     }
 }
