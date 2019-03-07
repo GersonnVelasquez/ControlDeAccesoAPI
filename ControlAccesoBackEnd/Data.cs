@@ -119,7 +119,7 @@ namespace ControlAccesoBackEnd
                 .Property(e => e.empresa_procedencia)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Visita_Detalle>()
+            modelBuilder.Entity<Visita>()
                 .Property(e => e.placa_vehiculo)
                 .IsUnicode(false);
 

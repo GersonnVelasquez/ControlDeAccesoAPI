@@ -19,10 +19,6 @@ namespace ControlAccesoBackEnd
 
         public TimeSpan hr_salida { get; set; }
 
-        [Required]
-        [StringLength(7)]
-        public string placa_vehiculo { get; set; }
-
         public int n_carnet { get; set; }
 
         [StringLength(100)]
