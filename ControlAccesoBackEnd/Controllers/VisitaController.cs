@@ -19,6 +19,13 @@ namespace ControlAccesoBackEnd.Controllers
             return Ok(DB.Visita.ToList());
         }
 
+        [HttpGet]
+        [Route("api/Visita/select/empresaId/{id:int}")]
+        public IHttpActionResult GetbyEmpresaId(int id)
+        {
+            return Ok(DB.Visita.Where(i => i.id_empresa == id && i.estado == 1).OrderBy(i=> i.tipo_visita).ToList());
+        }
+
 
         [HttpPost]
         [Route("api/Visita/insert/")]
@@ -101,6 +108,8 @@ namespace ControlAccesoBackEnd.Controllers
         public IHttpActionResult Delete(int id)
         {
             DB.Visita.Remove(DB.Visita.Find(id));
+            DB.Visita_Detalle.RemoveRange(DB.Visita_Detalle.Where(i => i.id_visita == id));
+            DB.Objeto.RemoveRange(DB.Objeto.Where(i => i.id_visita == id));
             DB.SaveChanges();
             return Ok();
         }
