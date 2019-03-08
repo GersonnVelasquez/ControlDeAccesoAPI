@@ -19,6 +19,19 @@ namespace ControlAccesoBackEnd.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/Objeto/select/idVisita/{idvisita:int}")]
+        public IHttpActionResult GetbyIdVisita(int idvisita)
+        {
+            return Ok(DB.Objeto.Where(i => i.id_visita == idvisita).Select(i => new
+            {
+                Descripcion = i.descripcion,
+                Cantidad = i.cantidad,
+                Comentario = i.comentario
+
+            }));
+        }
+
         [HttpPost]
         [Route("api/Objeto/insert/")]
         public IHttpActionResult post(Objeto n)

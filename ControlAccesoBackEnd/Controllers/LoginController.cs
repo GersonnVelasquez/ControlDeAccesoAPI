@@ -20,7 +20,7 @@ namespace ControlAccesoBackEnd.Controllers
             {
                 if (usuario.contrasena == Password)
                 {
-                    return Ok(true);
+                    return Ok(usuario);
                 }
             }
             return Ok(false);
