@@ -28,6 +28,7 @@ namespace ControlAccesoBackEnd.Controllers
                            where visitadetalle.id_visita == idvisita
                            select new
                            {
+                               IdVisitaDetalle = visitadetalle.id_visita_detalle,
                                Nombre = persona.nombre,
                                HoraEntrada = visitadetalle.hr_entrada,
                                HoraSalida = visitadetalle.hr_salida,

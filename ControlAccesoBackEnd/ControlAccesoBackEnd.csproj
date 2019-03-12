@@ -124,6 +124,7 @@
     <Compile Include="CustomModels\VisitaData.cs" />
     <Compile Include="Models\Visita.cs" />
     <Compile Include="Models\Visita_Detalle.cs" />
+    <Compile Include="CustomModels\VisitaUpdated.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
