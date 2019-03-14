@@ -16,6 +16,9 @@ namespace ControlAccesoBackEnd
         [StringLength(50)]
         public string nombre { get; set; }
 
+        [StringLength(50)]
+        public string nombreimg { get; set; }
+
         [Column(TypeName = "image")]
         public byte[] logo { get; set; }
     }

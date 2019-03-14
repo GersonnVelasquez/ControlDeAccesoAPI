@@ -23,7 +23,7 @@ namespace ControlAccesoBackEnd.Controllers
         [Route("api/Visita/select/empresaId/{id:int}")]
         public IHttpActionResult GetbyEmpresaId(int id)
         {
-            return Ok(DB.Visita.Where(i => i.id_empresa == id && (i.estado == 1 || i.estado == 2)).OrderBy(i => i.tipo_visita).ToList());
+            return Ok(DB.Visita.Where(i => i.id_empresa == id).OrderBy(i => i.tipo_visita).ToList());
         }
 
 

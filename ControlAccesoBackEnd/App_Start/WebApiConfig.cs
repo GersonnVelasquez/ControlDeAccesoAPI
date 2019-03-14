@@ -18,11 +18,7 @@ namespace ControlAccesoBackEnd
             // Rutas de API web
             config.MapHttpAttributeRoutes();
 
-            var cors = new EnableCorsAttribute(
-                "*", 
-                "Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, If-Modified-Since, Pragma",
-            // Allowed methods
-            "GET, PUT, POST, DELETE, OPTIONS");
+            var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
 
