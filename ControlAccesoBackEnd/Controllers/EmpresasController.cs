@@ -75,6 +75,16 @@ namespace ControlAccesoBackEnd.Controllers
             return buffer;
         }
 
+        [HttpPost]
+        [Route("api/Empresas/insert/logo/")]
+        public IHttpActionResult postLogo(byte[] logo)
+        {
+
+            var l = logo;
+           
+            return Ok();
+        }
+
         [HttpPut]
         [Route("api/Empresas/update/")]
         public IHttpActionResult Update(Empresa n)
