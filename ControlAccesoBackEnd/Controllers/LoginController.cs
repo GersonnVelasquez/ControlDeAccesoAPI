@@ -10,6 +10,7 @@ namespace ControlAccesoBackEnd.Controllers
     public class LoginController : ApiController
     {
         Data DB = new Data();
+
         // GET: api/Login
         [Route("api/Login/{User}/{Password}")]
         public IHttpActionResult Get(string User, string Password)

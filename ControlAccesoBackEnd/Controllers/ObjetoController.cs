@@ -27,7 +27,8 @@ namespace ControlAccesoBackEnd.Controllers
             {
                 Descripcion = i.descripcion,
                 Cantidad = i.cantidad,
-                Comentario = i.comentario
+                Comentario = i.comentario,
+                idObjeto = i.id_objeto
 
             }));
         }

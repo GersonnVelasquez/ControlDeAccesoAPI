@@ -39,10 +39,10 @@ namespace ControlAccesoBackEnd.Controllers
 
 
         [HttpDelete]
-        [Route("api/Usuarios/delete/")]
-        public IHttpActionResult Delete(Usuario n)
+        [Route("api/Usuarios/delete/{id}")]
+        public IHttpActionResult Delete(int id)
         {
-            DB.Usuario.Remove(n);
+            DB.Usuario.Remove(DB.Usuario.Find(id));
             DB.SaveChanges();
             return Ok();
         }

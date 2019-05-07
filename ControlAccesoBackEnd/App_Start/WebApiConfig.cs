@@ -10,6 +10,9 @@ namespace ControlAccesoBackEnd
     {
         public static void Register(HttpConfiguration config)
         {
+
+           
+
             // Configuración y servicios de API web
 
             // Rutas de API web
@@ -24,6 +27,8 @@ namespace ControlAccesoBackEnd
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+      
         }
     }
 }
