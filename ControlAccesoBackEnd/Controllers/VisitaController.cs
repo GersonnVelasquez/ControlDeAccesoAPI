@@ -23,7 +23,7 @@ namespace ControlAccesoBackEnd.Controllers
         [Route("api/Visita/select/empresaId/{id:int}")]
         public IHttpActionResult GetbyEmpresaId(int id)
         {
-            return Ok(DB.Visita.Where(i => i.id_empresa == id && i.estado == 1).OrderBy(i=> i.tipo_visita).ToList());
+            return Ok(DB.Visita.Where(i => i.id_empresa == id).OrderBy(i => i.tipo_visita).ToList());
         }
 
 
@@ -53,14 +53,13 @@ namespace ControlAccesoBackEnd.Controllers
                     DB.Visita.Add(nuevaVisita);
                     DB.SaveChanges();
 
-                    foreach(Persona p in n.personas)
+                    foreach (Persona p in n.personas)
                     {
                         Visita_Detalle nuevaVisitaDetalle = new Visita_Detalle()
                         {
                             hr_entrada = null,
                             hr_salida = null,
                             id_persona = p.id_persona,
-                            estado = 1,
                             id_visita = nuevaVisita.id_visita,
                             n_carnet = null,
                             observaciones = null,
@@ -74,10 +73,10 @@ namespace ControlAccesoBackEnd.Controllers
                     {
                         Objeto nuevoObjeto = new Objeto()
                         {
-                           cantidad = o.cantidad,
-                           comentario = o.comentario,
-                           descripcion = o.descripcion,
-                           id_visita = nuevaVisita.id_visita
+                            cantidad = o.cantidad,
+                            comentario = o.comentario,
+                            descripcion = o.descripcion,
+                            id_visita = nuevaVisita.id_visita
 
                         };
                         DB.Objeto.Add(nuevoObjeto);
@@ -93,6 +92,62 @@ namespace ControlAccesoBackEnd.Controllers
                 }
             }
         }
+
+
+        [HttpPost]
+        [Route("api/Visita/UpdateInfo/")]
+        public IHttpActionResult ActualizarInfoVisitas(VisitaUpdated n)
+        {
+            using (var dbContextTransaction = DB.Database.BeginTransaction())
+            {
+                try
+                {
+                    int idvisitadetalle = 0;
+
+                    foreach (Visita_Detalle p in n.visita_detalle)
+                    {
+                        Visita_Detalle VisitaDetalle = DB.Visita_Detalle.Find(p.id_visita_detalle);
+                        VisitaDetalle.hr_entrada = p.hr_entrada;
+                        VisitaDetalle.hr_salida = p.hr_salida;
+                        VisitaDetalle.n_carnet = p.n_carnet;
+                        VisitaDetalle.observaciones = p.observaciones;
+                        idvisitadetalle = VisitaDetalle.id_visita_detalle;
+                        DB.SaveChanges();
+                    }
+
+                    foreach (Objeto o in n.objetos)
+                    {
+                        Objeto Objeto = DB.Objeto.Find(o.id_objeto);
+                        Objeto.comentario = o.comentario;
+                        DB.SaveChanges();
+                    }
+
+                    Visita visita = DB.Visita.Find(DB.Visita_Detalle.Find(idvisitadetalle).id_visita);
+
+                    if (n.isFinal)
+                    {
+                        visita.estado = 3;
+                    }
+                    else
+                    {
+                        visita.estado = 2;
+                    }
+
+                    DB.SaveChanges();
+
+                    dbContextTransaction.Commit();
+                    return Ok();
+
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    return NotFound();
+                }
+            }
+        }
+
+
 
         [HttpPut]
         [Route("api/Visita/update/")]

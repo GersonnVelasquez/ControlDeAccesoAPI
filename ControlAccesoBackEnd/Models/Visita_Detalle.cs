@@ -24,6 +24,5 @@ namespace ControlAccesoBackEnd
         [StringLength(100)]
         public string observaciones { get; set; }
 
-        public int estado { get; set; }
     }
 }
