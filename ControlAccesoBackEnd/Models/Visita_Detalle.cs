@@ -24,5 +24,9 @@ namespace ControlAccesoBackEnd
         [StringLength(100)]
         public string observaciones { get; set; }
 
+        [StringLength(100)]
+        public string nombre_adjunto { get; set; }
+
+
     }
 }

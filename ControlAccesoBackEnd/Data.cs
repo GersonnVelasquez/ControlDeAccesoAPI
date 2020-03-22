@@ -8,7 +8,10 @@ namespace ControlAccesoBackEnd
     public partial class Data : DbContext
     {
         public Data()
-            : base("Server=.;Database=Control_Acceso_GVIP;User Id=sa; Password = 12345678;")
+           // Servidor
+           //: base("Server=GVACCESO\\SQLEXPRESS;Database=Control_Acceso_GVIP;User Id=sa; Password =39200Ford;")
+           //Pruebas
+           : base("Server=.;Database=Control_Acceso_GVIP;User Id=sa; Password =39200Ford1;")
         {
         }
 

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.IO;
+using System.Web;
+
+
 
 
 namespace ControlAccesoBackEnd.Controllers
@@ -26,61 +30,149 @@ namespace ControlAccesoBackEnd.Controllers
             return Ok(DB.Visita.Where(i => i.id_empresa == id).OrderBy(i => i.tipo_visita).ToList());
         }
 
+        public Stream toStream(byte[] array)
+        {
+            if (array != null)
+            {
+                MemoryStream st = new MemoryStream(array);
+                return st;
+            }
+            return null;
+
+        }
+        public byte[] ToByteArray(Stream stream)
+        {
+            stream.Position = 0;
+            byte[] buffer = new byte[stream.Length];
+            for (int totalBytesCopied = 0; totalBytesCopied < stream.Length;)
+                totalBytesCopied += stream.Read(buffer, totalBytesCopied, Convert.ToInt32(stream.Length) - totalBytesCopied);
+            return buffer;
+        }
+
+
+        [HttpPost]
+        [Route("api/Visita/Adjunto/")]
+        public IHttpActionResult AddAdjunto()
+        {
+            string NombreArchivo = HttpContext.Current.Request.Form["Nombre_Adjunto"];
+
+            if (NombreArchivo != null)
+            { 
+                using (FileStream output = new FileStream(@"C:\Adjuntos\" + NombreArchivo , FileMode.Create))
+                {
+                    HttpContext.Current.Request.Files["Adjunto"].InputStream.CopyTo(output);
+                }
+            }
+            return Ok();
+        }
+
 
         [HttpPost]
         [Route("api/Visita/insert/")]
         public IHttpActionResult post(VisitaData n)
         {
+
             using (var dbContextTransaction = DB.Database.BeginTransaction())
             {
                 try
                 {
-                    Visita nuevaVisita = new Visita()
+                    if (n.visita.nombre_adjunto != null)
                     {
-                        descripcion = n.visita.descripcion,
-                        empresa_procedencia = n.visita.empresa_procedencia,
-                        fecha_creacion = DateTime.Now,
-                        fecha_visita = n.visita.fecha_visita,
-                        id_empresa = n.visita.id_empresa,
-                        id_permiso_trabajo = n.visita.id_permiso_trabajo,
-                        id_usuario = n.visita.id_usuario,
-                        placa_vehiculo = n.visita.placa_vehiculo,
-                        tipo_visita = n.visita.tipo_visita,
-                        hora_visita = n.visita.hora_visita,
-                        estado = 1
-                    };
-
-                    DB.Visita.Add(nuevaVisita);
-                    DB.SaveChanges();
-
-                    foreach (Persona p in n.personas)
-                    {
-                        Visita_Detalle nuevaVisitaDetalle = new Visita_Detalle()
+                        Visita nuevaVisita = new Visita()
                         {
-                            hr_entrada = null,
-                            hr_salida = null,
-                            id_persona = p.id_persona,
-                            id_visita = nuevaVisita.id_visita,
-                            n_carnet = null,
-                            observaciones = null,
-
+                            descripcion = n.visita.descripcion,
+                            empresa_procedencia = n.visita.empresa_procedencia,
+                            fecha_creacion = DateTime.Now,
+                            fecha_visita = n.visita.fecha_visita,
+                            id_empresa = n.visita.id_empresa,
+                            id_permiso_trabajo = n.visita.id_permiso_trabajo,
+                            id_usuario = n.visita.id_usuario,
+                            placa_vehiculo = n.visita.placa_vehiculo,
+                            tipo_visita = n.visita.tipo_visita,
+                            hora_visita = n.visita.hora_visita,
+                            estado = 1,
+                            nombre_adjunto = n.visita.nombre_adjunto
                         };
-                        DB.Visita_Detalle.Add(nuevaVisitaDetalle);
+                        DB.Visita.Add(nuevaVisita);
                         DB.SaveChanges();
+                        foreach (Persona p in n.personas)
+                        {
+                            Visita_Detalle nuevaVisitaDetalle = new Visita_Detalle()
+                            {
+                                hr_entrada = null,
+                                hr_salida = null,
+                                id_persona = p.id_persona,
+                                id_visita = nuevaVisita.id_visita,
+                                n_carnet = null,
+                                observaciones = null
+                            };
+                            DB.Visita_Detalle.Add(nuevaVisitaDetalle);
+                            DB.SaveChanges();
+                        }
+
+                        foreach (Objeto o in n.objetos)
+                        {
+                            Objeto nuevoObjeto = new Objeto()
+                            {
+                                cantidad = o.cantidad,
+                                comentario = o.comentario,
+                                descripcion = o.descripcion,
+                                id_visita = nuevaVisita.id_visita
+
+                            };
+                            DB.Objeto.Add(nuevoObjeto);
+                            DB.SaveChanges();
+                        }
                     }
-
-                    foreach (Objeto o in n.objetos)
+                    else
                     {
-                        Objeto nuevoObjeto = new Objeto()
+                        Visita nuevaVisita = new Visita()
                         {
-                            cantidad = o.cantidad,
-                            comentario = o.comentario,
-                            descripcion = o.descripcion,
-                            id_visita = nuevaVisita.id_visita
-
+                            descripcion = n.visita.descripcion,
+                            empresa_procedencia = n.visita.empresa_procedencia,
+                            fecha_creacion = DateTime.Now,
+                            fecha_visita = n.visita.fecha_visita,
+                            id_empresa = n.visita.id_empresa,
+                            id_permiso_trabajo = n.visita.id_permiso_trabajo,
+                            id_usuario = n.visita.id_usuario,
+                            placa_vehiculo = n.visita.placa_vehiculo,
+                            tipo_visita = n.visita.tipo_visita,
+                            hora_visita = n.visita.hora_visita,
+                            estado = 1,
+                            nombre_adjunto = null
                         };
-                        DB.Objeto.Add(nuevoObjeto);
+                        DB.Visita.Add(nuevaVisita);
                         DB.SaveChanges();
+                        foreach (Persona p in n.personas)
+                        {
+                            Visita_Detalle nuevaVisitaDetalle = new Visita_Detalle()
+                            {
+                                hr_entrada = null,
+                                hr_salida = null,
+                                id_persona = p.id_persona,
+                                id_visita = nuevaVisita.id_visita,
+                                n_carnet = null,
+                                observaciones = null
+                            };
+                            DB.Visita_Detalle.Add(nuevaVisitaDetalle);
+                            DB.SaveChanges();
+                        }
+
+                        foreach (Objeto o in n.objetos)
+                        {
+                            Objeto nuevoObjeto = new Objeto()
+                            {
+                                cantidad = o.cantidad,
+                                comentario = o.comentario,
+                                descripcion = o.descripcion,
+                                id_visita = nuevaVisita.id_visita
+
+                            };
+                            DB.Objeto.Add(nuevoObjeto);
+                            DB.SaveChanges();
+                        }
+
+
                     }
                     dbContextTransaction.Commit();
                     return Ok();
@@ -91,6 +183,9 @@ namespace ControlAccesoBackEnd.Controllers
                     return NotFound();
                 }
             }
+
+
+            return Ok();
         }
 
 
@@ -111,6 +206,7 @@ namespace ControlAccesoBackEnd.Controllers
                         VisitaDetalle.hr_salida = p.hr_salida;
                         VisitaDetalle.n_carnet = p.n_carnet;
                         VisitaDetalle.observaciones = p.observaciones;
+                        VisitaDetalle.nombre_adjunto = p.nombre_adjunto;
                         idvisitadetalle = VisitaDetalle.id_visita_detalle;
                         DB.SaveChanges();
                     }

@@ -40,5 +40,9 @@ namespace ControlAccesoBackEnd
         public TimeSpan hora_visita { get; set; }
 
         public int estado { get; set; }
+
+        [StringLength(100)]
+        public string nombre_adjunto { get; set; }
+
     }
 }

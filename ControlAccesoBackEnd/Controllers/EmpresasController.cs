@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -24,11 +25,14 @@ namespace ControlAccesoBackEnd.Controllers
                 {
                     i.nombre,
                     i.id_empresa,
+                    i.nombreimg,
                     logo = toStream(i.logo)
+
+
                 });
 
-               
-                 return Ok(empresa); ;
+
+                return Ok(empresa); ;
             }
             catch (Exception r)
             {
@@ -36,16 +40,16 @@ namespace ControlAccesoBackEnd.Controllers
             }
         }
 
-     
+
         public Stream toStream(byte[] array)
         {
-            if(array != null)
+            if (array != null)
             {
                 MemoryStream st = new MemoryStream(array);
                 return st;
             }
             return null;
-           
+
         }
 
         [HttpPost]
@@ -57,8 +61,20 @@ namespace ControlAccesoBackEnd.Controllers
             Empresa n = new Empresa
             {
                 nombre = HttpContext.Current.Request.Form["nombre"],
-                logo = ToByteArray(HttpContext.Current.Request.Files["logo"].InputStream)
+                logo = ToByteArray(HttpContext.Current.Request.Files["logo"].InputStream),
+                nombreimg = HttpContext.Current.Request.Form["nombreimg"]
+
             };
+
+            //using (System.IO.FileStream output = new System.IO.FileStream(@"C:\Users\Naomy_Rios\Desktop\MyOutput.jpg", FileMode.Create))
+            //{
+            //    HttpContext.Current.Request.Files["logo"].InputStream.CopyTo(output);
+            //}
+            //string NombreIMG = HttpContext.Current.Request.Form["nombreimg"];
+
+            //Image img = System.Drawing.Image.FromStream(HttpContext.Current.Request.Files["logo"].InputStream);
+
+            //img.Save(@"C:\Users\Naomy_Rios\Documents\GitHub\ControlDeAcceso\src\assets\logos\" + NombreIMG);
 
 
             DB.Empresa.Add(n);
@@ -66,7 +82,16 @@ namespace ControlAccesoBackEnd.Controllers
             return Ok();
         }
 
-        public byte[] ToByteArray(Stream stream)
+        [HttpGet]
+        [Route("api/Empresas/prueba/")]
+        public IHttpActionResult Getprueba() { 
+        
+            return Ok("funciona");
+        }
+    
+
+
+            public byte[] ToByteArray(Stream stream)
         {
             stream.Position = 0;
             byte[] buffer = new byte[stream.Length];
@@ -77,10 +102,12 @@ namespace ControlAccesoBackEnd.Controllers
 
         [HttpPost]
         [Route("api/Empresas/insert/logo/")]
-        public IHttpActionResult postLogo(byte[] logo)
+        public IHttpActionResult postLogo(byte [] logo, string nombreimg)
         {
+            //byte[]
 
             var l = logo;
+            var n = nombreimg;
            
             return Ok();
         }

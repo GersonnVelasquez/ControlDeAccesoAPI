@@ -10,5 +10,6 @@ namespace ControlAccesoBackEnd
         public Visita visita { get; set; }
         public Persona[] personas { get; set; }
         public Objeto[] objetos { get; set; }
+
     }
 }
